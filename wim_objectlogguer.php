@@ -35,12 +35,9 @@ class Wim_objectlogguer extends Module {
         return parent::install() && 
             $this->registerHook('header') &&
             $this->registerHook('backOfficeHeader') &&
-            //HOOK ADD/DELETE/UPDATE
-            $this->registerHook('actionObjectAddBefore') &&
+            //HOOK ADD/UPDATE/DELETE
             $this->registerHook('actionObjectAddAfter') &&
-            $this->registerHook('actionObjectUpdateBefore') &&
             $this->registerHook('actionObjectUpdateAfter') &&
-            $this->registerHook('actionObjectDeleteBefore') &&
             $this->registerHook('actionObjectDeleteAfter');        
     }
 
@@ -50,32 +47,32 @@ class Wim_objectlogguer extends Module {
         return parent::uninstall();
     }
 
-    public function funcionRecogida($params, $event) {
-        $obj2 = new ObjectLogguer();
-        $obj2->affected_object = $params['object']->id;
-        $obj2->action_type = $event;
-        $obj2->object_type =  get_class($params['object']);
+    public function accionesBd($params, $event) {
+        $obj = new ObjectLogger();
+        $obj->affected_object = $params['object']->id;
+        $obj->action_type = $event;
+        $obj->object_type =  get_class($params['object']);
         if($event == 'add') {
-            $obj2->message = "Object with id " . $params['object']->id . ' ' . $event . 'ed';
+            $obj->message = "Object with id " . $params['object']->id . ' ' . $event . 'ed';
         } else {
-            $obj2->message = "Object with id " . $params['object']->id . ' ' . $event . 'd';
+            $obj->message = "Object with id " . $params['object']->id . ' ' . $event . 'd';
         } 
-        $obj2->date_add = date("Y-m-d H:i:s");
-        if(get_class($params['object']) != 'ObjectLogguer') {
-            $obj2->add();
+        $obj->date_add = date("Y-m-d H:i:s");
+        if(get_class($params['object']) != 'ObjectLogger') {
+            $obj->add();
         }
     }
 
     public function hookActionObjectDeleteAfter($params) {
-        $this->funcionRecogida($params, 'delete');
+        $this->accionesBd($params, 'delete');
     }
 
     public function hookActionObjectAddAfter($params) {
-        $this->funcionRecogida($params, 'add');
+        $this->accionesBd($params, 'add');
     }
 
     public function hookActionObjectUpdateAfter($params) {
-        $this->funcionRecogida($params, 'update');
+        $this->accionesBd($params, 'update');
     }
 
 } 
