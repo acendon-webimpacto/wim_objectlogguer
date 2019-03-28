@@ -13,9 +13,6 @@ class Wim_objectlogguer extends Module {
         $this->bootstrap = true;
 
         parent::__construct();
-
-        $this->displayName = $this->l('wim_objectlogguer');
-        $this->description = $this->l('Este es mi primer modulo');
     }
 
     public function install() {
@@ -33,11 +30,81 @@ class Wim_objectlogguer extends Module {
 
         return parent::install() && 
             $this->registerHook('header') &&
-            $this->registerHook('displayhome') &&
-            //OTRO HOOK
-            $this->registerHook('actionObject');
-
-
-        
+            $this->registerHook('backOfficeHeader') &&
+            //HOOK ADD/DELETE/UPDATE
+            $this->registerHook('actionObjectAddBefore') &&
+            $this->registerHook('actionObjectAddAfter') &&
+            $this->registerHook('actionObjectUpdateBefore') &&
+            $this->registerHook('actionObjectUpdateAfter') &&
+            $this->registerHook('actionObjectDeleteBefore') &&
+            $this->registerHook('actionObjectDeleteAfter');        
     }
+
+ 
+    public function uninstall()
+    {
+        return parent::uninstall();
+    }
+
+    public function hookActionObjectDeleteAfter($params) {
+        Db::getInstance()->insert('objectlogguer',array(
+            'affected_object' => $params['object']->id, 
+            'action_type' => "delete",
+            'object_type' =>  get_class($params['object']),
+            'message' => "Object with id " . $params['object']->id . " deleted",
+            'date_add' => date("Y-m-d H:i:s"),
+        ));
+    }
+
+    /*public function hookActionObjectDeleteBefore($params) {
+        Db::getInstance()->insert('objectlogguer',array(
+            'affected_object' => $params['object']->id, 
+            'action_type' => "delete",
+            'object_type' =>  get_class($params['object']),
+            'message' => "Object with id " . $params['object']->id . " deleted",
+            'date_add' => date("Y-m-d H:i:s"),
+        ));
+    }*/
+
+    public function hookActionObjectAddAfter($params) {
+        Db::getInstance()->insert('objectlogguer',array(
+            'affected_object' => $params['object']->id, 
+            'action_type' => "add",
+            'object_type' =>  get_class($params['object']),
+            'message' => "Object with id " . $params['object']->id . " added",
+            'date_add' => date("Y-m-d H:i:s"),
+        ));
+    }
+
+    /*public function hookActionObjectAddBefore() {
+        Db::getInstance()->insert('objectlogguer',array(
+            'affected_object' => $params['object']->id, 
+            'action_type' => "add",
+            'object_type' =>  get_class($params['object']),
+            'message' => "Object with id " . $params['object']->id . " added",
+            'date_add' => date("Y-m-d H:i:s"),
+        ));
+    }*/
+
+    public function hookActionObjectUpdateAfter($params) {
+        Db::getInstance()->insert('objectlogguer',array(
+            'affected_object' => $params['object']->id, 
+            'action_type' => "update",
+            'object_type' =>  get_class($params['object']),
+            'message' => "Object with id " . $params['object']->id . " updated",
+            'date_add' => date("Y-m-d H:i:s"),
+        ));
+    }
+
+    
+    /*public function hookActionObjectUpdateBefore($params) {
+        Db::getInstance()->insert('objectlogguer',array(
+            'affected_object' => $params['object']->id, 
+            'action_type' => "update",
+            'object_type' =>  get_class($params['object']),
+            'message' => "Object with id " . $params['object']->id . " updated",
+            'date_add' => date("Y-m-d H:i:s"),
+        ));
+    }*/
+
 } 
