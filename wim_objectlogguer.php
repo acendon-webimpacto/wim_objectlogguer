@@ -1,5 +1,5 @@
 <?php
-require_once 'classes/ObjectLogguer.php';
+require_once 'classes/ObjectLogger.php';
 if(!defined('_PS_VERSION_'))
     exit;
 

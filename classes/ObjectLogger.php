@@ -1,6 +1,6 @@
 <?php
 
-class ObjectLogguer extends ObjectModel 
+class ObjectLogger extends ObjectModel 
 {
 
     public static $definition = array(
