@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <module>
 	<name>wim_objectlogguer</name>
-	<displayName><![CDATA[]]></displayName>
+	<displayName><![CDATA[wim_objectlogguer]]></displayName>
 	<version><![CDATA[1.0.0]]></version>
 	<description><![CDATA[]]></description>
 	<author><![CDATA[Adri&aacute;n Cend&oacute;n]]></author>

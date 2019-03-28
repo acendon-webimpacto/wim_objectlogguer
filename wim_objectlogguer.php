@@ -1,8 +1,10 @@
 <?php
+require_once 'classes/ObjectLogguer.php';
 if(!defined('_PS_VERSION_'))
     exit;
 
 class Wim_objectlogguer extends Module {
+
     public function __construct() {
         $this->name = 'wim_objectlogguer';
         $this->tab = 'administration';
@@ -11,6 +13,8 @@ class Wim_objectlogguer extends Module {
         $this->need_instance = 0;
         $this->ps_versions_compliancy = array('min' => '1.6', 'max' => _PS_VERSION_);
         $this->bootstrap = true;
+
+        $this->displayName = 'wim_objectlogguer';
 
         parent::__construct();
     }
@@ -46,65 +50,32 @@ class Wim_objectlogguer extends Module {
         return parent::uninstall();
     }
 
-    public function hookActionObjectDeleteAfter($params) {
-        Db::getInstance()->insert('objectlogguer',array(
-            'affected_object' => $params['object']->id, 
-            'action_type' => "delete",
-            'object_type' =>  get_class($params['object']),
-            'message' => "Object with id " . $params['object']->id . " deleted",
-            'date_add' => date("Y-m-d H:i:s"),
-        ));
+    public function funcionRecogida($params, $event) {
+        $obj2 = new ObjectLogguer();
+        $obj2->affected_object = $params['object']->id;
+        $obj2->action_type = $event;
+        $obj2->object_type =  get_class($params['object']);
+        if($event == 'add') {
+            $obj2->message = "Object with id " . $params['object']->id . ' ' . $event . 'ed';
+        } else {
+            $obj2->message = "Object with id " . $params['object']->id . ' ' . $event . 'd';
+        } 
+        $obj2->date_add = date("Y-m-d H:i:s");
+        if(get_class($params['object']) != 'ObjectLogguer') {
+            $obj2->add();
+        }
     }
 
-    /*public function hookActionObjectDeleteBefore($params) {
-        Db::getInstance()->insert('objectlogguer',array(
-            'affected_object' => $params['object']->id, 
-            'action_type' => "delete",
-            'object_type' =>  get_class($params['object']),
-            'message' => "Object with id " . $params['object']->id . " deleted",
-            'date_add' => date("Y-m-d H:i:s"),
-        ));
-    }*/
+    public function hookActionObjectDeleteAfter($params) {
+        $this->funcionRecogida($params, 'delete');
+    }
 
     public function hookActionObjectAddAfter($params) {
-        Db::getInstance()->insert('objectlogguer',array(
-            'affected_object' => $params['object']->id, 
-            'action_type' => "add",
-            'object_type' =>  get_class($params['object']),
-            'message' => "Object with id " . $params['object']->id . " added",
-            'date_add' => date("Y-m-d H:i:s"),
-        ));
+        $this->funcionRecogida($params, 'add');
     }
-
-    /*public function hookActionObjectAddBefore() {
-        Db::getInstance()->insert('objectlogguer',array(
-            'affected_object' => $params['object']->id, 
-            'action_type' => "add",
-            'object_type' =>  get_class($params['object']),
-            'message' => "Object with id " . $params['object']->id . " added",
-            'date_add' => date("Y-m-d H:i:s"),
-        ));
-    }*/
 
     public function hookActionObjectUpdateAfter($params) {
-        Db::getInstance()->insert('objectlogguer',array(
-            'affected_object' => $params['object']->id, 
-            'action_type' => "update",
-            'object_type' =>  get_class($params['object']),
-            'message' => "Object with id " . $params['object']->id . " updated",
-            'date_add' => date("Y-m-d H:i:s"),
-        ));
+        $this->funcionRecogida($params, 'update');
     }
-
-    
-    /*public function hookActionObjectUpdateBefore($params) {
-        Db::getInstance()->insert('objectlogguer',array(
-            'affected_object' => $params['object']->id, 
-            'action_type' => "update",
-            'object_type' =>  get_class($params['object']),
-            'message' => "Object with id " . $params['object']->id . " updated",
-            'date_add' => date("Y-m-d H:i:s"),
-        ));
-    }*/
 
 } 
