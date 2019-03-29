@@ -30,7 +30,7 @@ if (!defined('_PS_VERSION_'))
 
 class Wim_ObjectLogguer extends Module {
 
-    public function __construct() 
+    public function __construct()
     {
         $this->name = 'wim_objectlogguer';
         $this->tab = 'administration';
@@ -46,7 +46,7 @@ class Wim_ObjectLogguer extends Module {
         parent::__construct();
     }
 
-    public function install() 
+    public function install()
     {
         Db::getInstance()->execute(
             "CREATE TABLE IF NOT EXISTS `"._DB_PREFIX_."objectlogguer`(
@@ -75,7 +75,7 @@ class Wim_ObjectLogguer extends Module {
         return parent::uninstall();
     }
 
-    public function accionesBd($params, $event) 
+    public function accionesBd($params, $event)
     {
         $obj = new ObjectLogger();
         $obj->affected_object = $params['object']->id;
@@ -92,17 +92,17 @@ class Wim_ObjectLogguer extends Module {
         }
     }
 
-    public function hookActionObjectDeleteAfter($params) 
+    public function hookActionObjectDeleteAfter($params)
     {
         $this->accionesBd($params, 'delete');
     }
 
-    public function hookActionObjectAddAfter($params) 
+    public function hookActionObjectAddAfter($params)
     {
         $this->accionesBd($params, 'add');
     }
 
-    public function hookActionObjectUpdateAfter($params) 
+    public function hookActionObjectUpdateAfter($params)
     {
         $this->accionesBd($params, 'update');
     }
