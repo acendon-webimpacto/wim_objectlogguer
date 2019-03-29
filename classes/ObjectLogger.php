@@ -1,6 +1,6 @@
 <?php
 
-class ObjectLogger extends ObjectModel 
+class ObjectLogger extends ObjectModel
 {
     public static $definition = array(
         'table' => 'objectlogguer',
@@ -14,3 +14,5 @@ class ObjectLogger extends ObjectModel
         ),
     );
 }
+
+?>

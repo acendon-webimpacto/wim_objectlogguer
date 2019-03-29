@@ -9,12 +9,13 @@ class Wim_objectlogguer extends Module {
         $this->name = 'wim_objectlogguer';
         $this->tab = 'administration';
         $this->version = '1.0.0';
-        $this->author = 'Adrián Cendón';
+        $this->author = 'Adrian_Cendon';
         $this->need_instance = 0;
         $this->ps_versions_compliancy = array('min' => '1.6', 'max' => _PS_VERSION_);
         $this->bootstrap = true;
 
         $this->displayName = 'wim_objectlogguer';
+        $this->description = 'Este es mi módulo';
 
         parent::__construct();
     }
@@ -76,3 +77,4 @@ class Wim_objectlogguer extends Module {
     }
 
 } 
+?>
