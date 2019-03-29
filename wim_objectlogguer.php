@@ -1,5 +1,5 @@
 <?php
-/*
+/** 
 * 2007-2016 PrestaShop
 *
 * NOTICE OF LICENSE
@@ -24,7 +24,7 @@
 *  International Registered Trademark & Property of PrestaShop SA
 */
 require_once 'classes/ObjectLogger.php';
-if(!defined('_PS_VERSION_'))
+if (!defined('_PS_VERSION_'))
     exit;
 
 class Wim_objectlogguer extends Module {
@@ -77,13 +77,13 @@ class Wim_objectlogguer extends Module {
         $obj->affected_object = $params['object']->id;
         $obj->action_type = $event;
         $obj->object_type =  get_class($params['object']);
-        if($event == 'add') {
+        if ($event == 'add') {
             $obj->message = "Object with id " . $params['object']->id . ' ' . $event . 'ed';
         } else {
             $obj->message = "Object with id " . $params['object']->id . ' ' . $event . 'd';
         } 
         $obj->date_add = date("Y-m-d H:i:s");
-        if(get_class($params['object']) != 'ObjectLogger') {
+        if (get_class($params['object']) != 'ObjectLogger') {
             $obj->add();
         }
     }
