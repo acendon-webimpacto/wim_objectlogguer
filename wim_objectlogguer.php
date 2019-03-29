@@ -106,6 +106,4 @@ class Wim_ObjectLogguer extends Module {
     {
         $this->accionesBd($params, 'update');
     }
-
 }
-?>
