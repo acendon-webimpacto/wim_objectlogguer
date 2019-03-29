@@ -1,5 +1,5 @@
 <?php
-/** 
+/**
 * 2007-2016 PrestaShop
 *
 * NOTICE OF LICENSE
@@ -18,7 +18,7 @@
 * versions in the future. If you wish to customize PrestaShop for your
 * needs please refer to http://www.prestashop.com for more information.
 *
-*  @author PrestaShop SA <contact@prestashop.com>
+*  @author Adrián Cendón
 *  @copyright  2007-2016 PrestaShop SA
 *  @license    http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
 *  International Registered Trademark & Property of PrestaShop SA
@@ -28,7 +28,7 @@ require_once 'classes/ObjectLogger.php';
 if (!defined('_PS_VERSION_'))
     exit;
 
-class Wim_objectlogguer extends Module {
+class Wim_ObjectLogguer extends Module {
 
     public function __construct() {
         $this->name = 'wim_objectlogguer';
@@ -58,13 +58,13 @@ class Wim_objectlogguer extends Module {
             ) ENGINE="._MYSQL_ENGINE_."DEFAULT CHARSET=UTF8;"
         );
 
-        return parent::install() && 
+        return parent::install() &&
             $this->registerHook('header') &&
             $this->registerHook('backOfficeHeader') &&
             //HOOK ADD/UPDATE/DELETE
             $this->registerHook('actionObjectAddAfter') &&
             $this->registerHook('actionObjectUpdateAfter') &&
-            $this->registerHook('actionObjectDeleteAfter');        
+            $this->registerHook('actionObjectDeleteAfter');
     }
 
  
@@ -82,7 +82,7 @@ class Wim_objectlogguer extends Module {
             $obj->message = "Object with id " . $params['object']->id . ' ' . $event . 'ed';
         } else {
             $obj->message = "Object with id " . $params['object']->id . ' ' . $event . 'd';
-        } 
+        }
         $obj->date_add = date("Y-m-d H:i:s");
         if (get_class($params['object']) != 'ObjectLogger') {
             $obj->add();
@@ -101,5 +101,5 @@ class Wim_objectlogguer extends Module {
         $this->accionesBd($params, 'update');
     }
 
-} 
+}
 ?>

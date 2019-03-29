@@ -1,5 +1,5 @@
 <?php
-/** 
+/**
 * 2007-2016 PrestaShop
 *
 * NOTICE OF LICENSE
@@ -18,7 +18,7 @@
 * versions in the future. If you wish to customize PrestaShop for your
 * needs please refer to http://www.prestashop.com for more information.
 *
-*  @author PrestaShop SA <contact@prestashop.com>
+*  @author Adrián Cendón
 *  @copyright  2007-2016 PrestaShop SA
 *  @license    http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
 *  International Registered Trademark & Property of PrestaShop SA
@@ -30,7 +30,7 @@ class ObjectLogger extends ObjectModel
         'table' => 'objectlogguer',
         'primary' => 'id_objectlogguer',
         'fields' => array(
-            'affected_object' =>        array('type' => self::TYPE_INT, 'validate' => 'isNullOrUnsignedId', 
+            'affected_object' =>        array('type' => self::TYPE_INT, 'validate' => 'isNullOrUnsignedId',
                 'copy_post' => false),
             'action_type' =>    array('type' => self::TYPE_STRING, 'validate' => 'isGenericName', 'size' => 255),
             'object_type' =>    array('type' => self::TYPE_STRING, 'validate' => 'isGenericName', 'size' => 255),
